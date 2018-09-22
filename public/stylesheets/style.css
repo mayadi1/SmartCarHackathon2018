@@ -175,6 +175,7 @@ p {
   opacity: 0;
   visibility: hidden;
 }
+
 .paper-map {
   position: absolute;
   top: 0;
@@ -376,4 +377,42 @@ p {
 @keyframes paperMapFadeIn {
   0% {-webkit-transform: scale(0, 0.5);transform: scale(0, 0.5); opacity: 0;}
   100% {-webkit-transform: scale(1);transform: scale(1); opacity: 1;}
+}
+
+.button {
+  position: relative;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: #3cba54;
+  padding: 1em 2em;
+  border: none;
+  color: white;
+  font-size: 1.2em;
+  cursor: pointer;
+  outline: none;
+  overflow: hidden;
+  border-radius: 100px;
+  left: 46%;
+  top: 20px;
+}
+.button span {
+  position: relative;
+  pointer-events: none;
+}
+.button::before {
+  --size: 0;
+  content: '';
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--size);
+  height: var(--size);
+  background: radial-gradient(circle closest-side, #4405f7, transparent);
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  transition: width .2s ease, height .2s ease;
+}
+.button:hover::before {
+  --size: 400px;
 }
