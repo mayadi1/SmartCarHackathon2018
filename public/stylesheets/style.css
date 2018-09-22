@@ -416,3 +416,10 @@ p {
 .button:hover::before {
   --size: 400px;
 }
+
+#userNameForsharing{
+	position: relative;
+    width: 662px;
+    left: 24%;
+    top: 20px;
+}
