@@ -69,44 +69,14 @@ db.once('open', function() {
 
 const models = require('./models/user.model');
 
-var init_db = function() {
-    /*
-    User.deleteMany({}, function (err) {
-        if (err) return console.error(err);
-    });
-    */
-
-    models.get_user_by_name('owner', function(err, docs) {
-        if (!docs.length || docs.length == 0) {
-            var initial_dict = {
-                name: 'owner', 
-                password: 'password', 
-                cars: 
-                [{name: "VW"}, {name: "Ford"}, {name: "Tesla"}] 
-            };
-            models.create_user(initial_dict, function(err, owner){
-                if (err) {
-                    return console.error(err);
-                }
-            });
-        }
-    });
-    
-    models.get_user_by_name('lender', function(err, docs) {
-        if (!docs.length || docs.length == 0) {
-            var initial_dict = { 
-                name: 'lender', 
-                password: 'password' };
-
-            models.create_user(initial_dict, function(err, lender){
-                if (err) {
-                    return console.error(err);
-                }
-            });
-        }
-    });
-};
-
-
+// upsert lender
+var initial_dict = { 
+    name: 'lender', 
+    password: 'password' };
+models.upsert_user(initial_dict, function(err, lender){
+    if (err) {
+        return console.error(err);
+    }
+});
 
 module.exports = app;

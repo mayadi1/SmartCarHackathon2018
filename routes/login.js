@@ -2,11 +2,11 @@ var express = require('express');
 var router = express.Router();
 
 
-const User = require('../models/user.model');
+const models = require('../models/user.model');
 
 router.post('/', function(req, res, next) {
 
-    User.findOne({ 'name': req.body.u }, function (err, userFromDb) {
+    models.UserModel.findOne({ 'name': req.body.u }, function (err, userFromDb) {
         if (err || !userFromDb) {
             res.render('index', { result: 'Login failed' });
         } else {

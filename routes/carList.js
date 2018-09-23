@@ -16,7 +16,7 @@ router.get('/', function(req, res, next) {
         });
     };
 
-    smartcar.get_credentials(callback);
+    smartcar.get_credentials('owner', callback);
     console.log("###smartcar.get_credentials");
 });
 
