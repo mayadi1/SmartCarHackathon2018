@@ -11,7 +11,7 @@ router.get('/', function(req, res, next) {
         smartcar.get_vehicles(credentials.accessToken, function(vehicles) {
             console.log("before router_res: " + JSON.stringify(vehicles));
 
-            router_res.render('carList', {data: vehicles});
+            router_res.render('carList', { "vehicles": vehicles});
             console.log("###after render");
         });
     };

@@ -6,28 +6,20 @@
                     <th>Make</th>
                     <th>Model</th>
                     <th>Year</th>
+                    <th>Vin Number</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
+                {{#each vehicles}}
                 <tr>
-                    <td>VW</td>
-                    <td>Jetta</td>
-                    <td>2019</td>
-                    <td><a href="/lending?car=VW">Select</a></td>
+                    <td>{{make}}</td>
+                    <td>{{model}}</td>
+                    <td>{{year}}</td>
+                    <td>{{vin}}</td>
+                    <td><a href="/lending?car={{id}}">Select</a></td>
                 </tr>
-                <tr>
-                    <td>Ford</td>
-                    <td>F-150</td>
-                    <td>2019</td>
-                    <td><a href="/lending?car=Ford">Select</a></td>
-                </tr>
-                <tr>
-                    <td>Tesla</td>
-                    <td>Model S</td>
-                    <td>2013</td>
-                    <td><a href="/lending?car=Tesla">Select</a></td>
-                </tr>
+                {{/each}}
             </tbody>
         </table>
     </div>
