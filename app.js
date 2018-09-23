@@ -56,6 +56,9 @@ db.once('open', function() {
 });
 
 const User = require('./models/user.model');
+User.deleteMany({}, function (err) {
+    if (err) return console.error(err);
+});
 var owner = new User({ name: 'owner', password: 'password' });
 owner.save(function (err, owner) {
     if (err) return console.error(err);
