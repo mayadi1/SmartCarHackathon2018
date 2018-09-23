@@ -32,3 +32,35 @@
         </table>
     </div>
 </div>
+
+<script src="https://www.gstatic.com/firebasejs/5.5.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.4.1/firebase-database.js"></script>
+
+<script type="text/javascript">
+
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAJZZ3NZfdV8Ev1Ghx4IuV-XsUuQLWSVg4",
+    authDomain: "smartcar-315fd.firebaseapp.com",
+    databaseURL: "https://smartcar-315fd.firebaseio.com",
+    projectId: "smartcar-315fd",
+    storageBucket: "",
+    messagingSenderId: "540965329796"
+  };
+  var defaultApp = firebase.initializeApp(config);
+
+loadMessages()
+// Loads chat messages history and listens for upcoming ones.
+function loadMessages() {
+  // Loads the last 12 messages and listen for new ones.
+  var callback = function(snap) {
+    var data = snap.val();
+    console.log(snap.key, data.name, data.text);
+  };
+
+  firebase.database().ref('/messages/').limitToLast(12).on('child_added', callback);
+  firebase.database().ref('/messages/').limitToLast(12).on('child_changed', callback);
+}
+
+
+</script>
