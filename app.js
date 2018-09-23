@@ -11,6 +11,7 @@ var smartcarRouter = require('./routes/smartcar');
 var loginRouter = require('./routes/login');
 var lendingRouter = require('./routes/lending');
 var lendRouter = require('./routes/lend');
+var revokeLendingRouter = require('./routes/revokeLending');
 var lockRouter = require('./routes/lock');
 
 const models = require('./models/user.model');
@@ -34,6 +35,7 @@ app.use('/smartcar', smartcarRouter);
 app.use('/lending', lendingRouter);
 app.use('/lock', lockRouter);
 app.use('/lend', lendRouter);
+app.use('/revokeLending', revokeLendingRouter);
 app.use('/login', loginRouter);
 
 app.get('/error', function(req, res, next) {
@@ -41,9 +43,9 @@ app.get('/error', function(req, res, next) {
     if (!action && !message) {
       return res.redirect('/');
     }
-  
+
     res.render('error', {action, message});
-  
+
   });
 
 // catch 404 and forward to error handler
@@ -72,8 +74,8 @@ db.once('open', function() {
 });
 
 // upsert lender
-var initial_dict = { 
-    name: 'lender', 
+var initial_dict = {
+    name: 'lender',
     password: 'password' };
 models.upsert_user(initial_dict, function(err, lender){
     if (err) {

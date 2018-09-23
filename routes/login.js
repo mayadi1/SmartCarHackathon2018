@@ -12,7 +12,7 @@ router.post('/', function(req, res, next) {
         } else {
             if (userFromDb.password === req.body.p) {
                 res.cookie('user', req.body.u);
-                res.redirect('/carlist');
+                res.redirect('/carList');
             }
             else {
                 res.render('index', { result: 'Login failed' });

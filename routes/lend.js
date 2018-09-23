@@ -1,47 +1,45 @@
 var express = require('express');
 var router = express.Router();
 
-const models = require('../models/user.model');
-
-const GOOGLE_API_KEY = "AIzaSyDvWHFx3eLPTVVvsfEn-iFxt46jwKFiJYM";
+const User = require('../models/user.model');
 
 router.post('/', function (req, res, next) {
-    User.findOne({'name': req.cookies.user}, function (err, userFromDb) {
-        if (err || !userFromDb) {
-            res.redirect('/');
-        } else {
-            let car;
-            for (var i = 0; i < userFromDb.cars.length; i++) {
-                if (userFromDb.cars[i].name === req.query.car) {
-                    car = userFromDb.cars[i];
-                }
-            }
-            if (car) {
-                car.lender = req.body.userId
-                models.User.findOneAndUpdate(
-                    {'name': req.cookies.user}),
-                    {
-                        "$set": {
-                            "cars.$": car
-                        }
-                    }, function (err, doc) {
-                    if (err) {
-                        res.render('lendingPrepare', {error: "Could not get the car"});
-                    } else {
-                        console.log("###lend");
-                        var data = {
-                            car: car,
-                            google_api_key: GOOGLE_API_KEY
-                        };
-                        res.render('lendingDone', data);
-                    }
-                }
-
+    let reqLender = req.body.lender;
+    let reqCarName = req.body.car;
+    // type checking userId
+    User.findOne({'name': reqLender}, function (err, userFromDb) {
+            if (err || !userFromDb) {
+                res.render('lendingPrepare', {error: "Please enter a valid userId", car: {name: reqCarName}});
             } else {
-                res.redirect('/carList');
+                let owner = req.cookies.user
+                User.findOne({'name': owner}, function (err, userFromDb) {
+                    if (err || !userFromDb) {
+                        res.redirect('/');
+                    } else {
+                        let car;
+                        for (var i = 0; i < userFromDb.cars.length; i++) {
+                            if (userFromDb.cars[i].name === reqCarName) {
+                                car = userFromDb.cars[i];
+                            }
+                        }
+                        if (car) {
+                            car.lender = reqLender;
+                            userFromDb.save(
+                                function (err) {
+                                if (err) {
+                                    res.redirect('lending?car' + car.name);
+                                } else {
+                                    res.redirect('lending?car=' + car.name);
+                                }
+                            });
+                        } else {
+                            res.redirect('/carList');
+                        }
+                    }
+                });
             }
         }
-    });
+    );
 });
 
 
