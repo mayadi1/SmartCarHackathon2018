@@ -13,12 +13,45 @@
 	  </div>
 	  <div id="map"></div>
 	</div>
-	<button class="button">
+	<button class="button" onclick="saveMessage('Tesla')">
 		<span>Share it!</span>
 	</button>
 </div>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBbG-3-9ajB7-W5-V7aDF05U33tfN9nXd0&callback=initMap" async defer></script>
 
+
+<script src="https://www.gstatic.com/firebasejs/5.5.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.4.1/firebase-database.js"></script>
+
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAJZZ3NZfdV8Ev1Ghx4IuV-XsUuQLWSVg4",
+    authDomain: "smartcar-315fd.firebaseapp.com",
+    databaseURL: "https://smartcar-315fd.firebaseio.com",
+    projectId: "smartcar-315fd",
+    storageBucket: "",
+    messagingSenderId: "540965329796"
+  };
+  var defaultApp = firebase.initializeApp(config);
+
+// Saves a new message on the Firebase DB.
+function saveMessage(messageText) {
+  // Add a new message entry to the Firebase Database.
+  return firebase.database().ref('/messages/').push({
+    name: getUserName(),
+    text: "messageText",
+    owner: document.cookie
+    }).catch(function(error) {
+    console.error('Error writing new message to Firebase Database', error);
+  });
+}
+
+function getUserName(){
+  	return document.getElementById('userNameForsharing').value
+}
+
+</script>
 
 <script type="text/javascript">
 

@@ -46,4 +46,26 @@ app.use(function(err, req, res, next) {
     res.render('error');
 });
 
+// Set up mongoose connection
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost:27017/keybuttler');
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.once('open', function() {
+    console.log("MongoDb connected")
+});
+
+const User = require('./models/user.model');
+User.deleteMany({}, function (err) {
+    if (err) return console.error(err);
+});
+var owner = new User({ name: 'owner', password: 'password' });
+owner.save(function (err, owner) {
+    if (err) return console.error(err);
+});
+var lender = new User({ name: 'lender', password: 'password' });
+lender.save(function (err, lender) {
+    if (err) return console.error(err);
+});
+
 module.exports = app;
