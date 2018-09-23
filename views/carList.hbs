@@ -1,12 +1,12 @@
 
  <div class="wrapper">
-        <table id="acrylic" onclick="window.location.href = './lending'">
+        <table id="acrylic">
             <thead>
                 <tr>
                     <th>Make</th>
                     <th>Model</th>
                     <th>Year</th>
-                    <th>Vin</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -14,53 +14,21 @@
                     <td>VW</td>
                     <td>Jetta</td>
                     <td>2019</td>
-                    <td>3VWC57BU2KM069082</td>
+                    <td><a href="/lending?car=VW">Select</a></td>
                 </tr>
                 <tr>
                     <td>Ford</td>
                     <td>F-150</td>
                     <td>2019</td>
-                    <td>9fdC57BU2KM069082</td>
+                    <td><a href="/lending?car=Ford">Select</a></td>
                 </tr>
                 <tr>
                     <td>Tesla</td>
                     <td>Model S</td>
                     <td>2013</td>
-                    <td>8TSC57BU2KM069082</td>
+                    <td><a href="/lending?car=Tesla">Select</a></td>
                 </tr>
             </tbody>
         </table>
     </div>
 </div>
-
-<script src="https://www.gstatic.com/firebasejs/5.5.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/5.4.1/firebase-database.js"></script>
-
-<script type="text/javascript">
-
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyAJZZ3NZfdV8Ev1Ghx4IuV-XsUuQLWSVg4",
-    authDomain: "smartcar-315fd.firebaseapp.com",
-    databaseURL: "https://smartcar-315fd.firebaseio.com",
-    projectId: "smartcar-315fd",
-    storageBucket: "",
-    messagingSenderId: "540965329796"
-  };
-  var defaultApp = firebase.initializeApp(config);
-
-loadMessages()
-// Loads chat messages history and listens for upcoming ones.
-function loadMessages() {
-  // Loads the last 12 messages and listen for new ones.
-  var callback = function(snap) {
-    var data = snap.val();
-    console.log(snap.key, data.name, data.text);
-  };
-
-  firebase.database().ref('/messages/').limitToLast(12).on('child_added', callback);
-  firebase.database().ref('/messages/').limitToLast(12).on('child_changed', callback);
-}
-
-
-</script>
