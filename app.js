@@ -13,6 +13,8 @@ var lendingRouter = require('./routes/lending');
 var lendRouter = require('./routes/lend');
 var revokeLendingRouter = require('./routes/revokeLending');
 var lockRouter = require('./routes/lock');
+var registerRouter = require('./routes/register');
+var lendingsRouter = require('./routes/lendings');
 
 const models = require('./models/user.model');
 
@@ -37,6 +39,8 @@ app.use('/lock', lockRouter);
 app.use('/lend', lendRouter);
 app.use('/revokeLending', revokeLendingRouter);
 app.use('/login', loginRouter);
+app.use('/register', registerRouter);
+app.use('/lendings', lendingsRouter);
 
 app.get('/error', function(req, res, next) {
     const {action, message} = req.query;

@@ -4,8 +4,11 @@ var router = express.Router();
 
 const models = require('../models/user.model');
 
-router.post('/', function(req, res, next) {
+router.get('/', function(req, res, next) {
+    res.render('login');
+});
 
+router.post('/', function(req, res, next) {
     models.UserModel.findOne({ 'name': req.body.u }, function (err, userFromDb) {
         if (err || !userFromDb) {
             res.render('index', { result: 'Login failed' });
@@ -19,8 +22,6 @@ router.post('/', function(req, res, next) {
             }
         }
     });
-
-
 });
 
 module.exports = router;
