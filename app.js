@@ -10,6 +10,7 @@ var carListRouter = require('./routes/carList');
 var smartcarRouter = require('./routes/smartcar');
 var loginRouter = require('./routes/login');
 var lendingRouter = require('./routes/lending');
+var lendRouter = require('./routes/lend');
 
 var app = express();
 
@@ -28,6 +29,7 @@ app.use('/users', usersRouter);
 app.use('/carList', carListRouter);
 app.use('/smartcar', smartcarRouter);
 app.use('/lending', lendingRouter);
+app.use('/lend', lendRouter);
 app.use('/login', loginRouter);
 
 // catch 404 and forward to error handler
@@ -59,7 +61,7 @@ const User = require('./models/user.model');
 User.deleteMany({}, function (err) {
     if (err) return console.error(err);
 });
-var owner = new User({ name: 'owner', password: 'password' });
+var owner = new User({ name: 'owner', password: 'password', cars: [{name: "VW"}, {name: "Ford"}, {name: "Tesla"}] });
 owner.save(function (err, owner) {
     if (err) return console.error(err);
 });
