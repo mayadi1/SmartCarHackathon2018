@@ -9,13 +9,15 @@ router.get('/', function(req, res, next) {
         console.log("credentials: " + credentials);    
         console.log("credentials['accessToken']: " + credentials['accessToken']);
         smartcar.get_vehicles(credentials.accessToken, function(vehicles) {
-            console.log(vehicles);
+            console.log("before router_res: " + JSON.stringify(vehicles));
 
-            router_res.render('carList', {});
+            router_res.render('carList', {data: vehicles});
+            console.log("###after render");
         });
     };
 
     smartcar.get_credentials(callback);
+    console.log("###smartcar.get_credentials");
 });
 
 module.exports = router;
