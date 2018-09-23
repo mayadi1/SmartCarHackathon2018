@@ -1,26 +1,7 @@
 var express = require('express');
 const _ = require('lodash');
-const smartcar = require('smartcar');
+const smartcar = require('../lib/smartcar');
 var router = express.Router();
-
-// Set Smartcar configuration
-const SMARTCAR_CLIENT_ID = '4a86ba96-2e0d-4c9b-a960-f79fb3487e53';
-const SMARTCAR_SECRET = 'aeac4157-9c6a-4cbe-9bff-1af55c995c0e';
-
-// Redirect uri must be added to the application's allowed redirect uris
-// in the Smartcar developer portal
-const SMARTCAR_REDIRECT_URI = 'http://localhost:3000/smartcar/callback';
-
-// Setting MODE to "development" will show Smartcar's mock vehicle
-const SMARTCAR_MODE = 'development';
-
-// Initialize Smartcar client
-const client = new smartcar.AuthClient({
-  clientId: SMARTCAR_CLIENT_ID,
-  clientSecret: SMARTCAR_SECRET,
-  redirectUri: SMARTCAR_REDIRECT_URI,
-  development: SMARTCAR_MODE === 'development',
-});
 
 /**
  * Helper function that redirects to the /error route with a specified
@@ -35,7 +16,7 @@ const redirectToError = (res, message, action) => res.redirect(url.format({
  * Render home page with a "Connect your car" button.
  */
 router.get('/auth', function(req, res, next) {
-  res.redirect(client.getAuthUrl());
+  res.redirect(smartcar.client.getAuthUrl());
 });
 
 /**
@@ -50,7 +31,7 @@ router.get('/callback', function(req, res, next) {
   }
 
   // Exchange authorization code for access token
-  client.exchangeCode(code)
+  smartcar.client.exchangeCode(code)
     .then(function(access) {
       req.session = {};
       req.session.vehicles = {};
