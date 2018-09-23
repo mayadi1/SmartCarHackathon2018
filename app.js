@@ -11,6 +11,9 @@ var smartcarRouter = require('./routes/smartcar');
 var loginRouter = require('./routes/login');
 var lendingRouter = require('./routes/lending');
 var lendRouter = require('./routes/lend');
+var lockRouter = require('./routes/lock');
+
+const models = require('./models/user.model');
 
 var app = express();
 
@@ -29,6 +32,7 @@ app.use('/users', usersRouter);
 app.use('/carList', carListRouter);
 app.use('/smartcar', smartcarRouter);
 app.use('/lending', lendingRouter);
+app.use('/lock', lockRouter);
 app.use('/lend', lendRouter);
 app.use('/login', loginRouter);
 
@@ -66,8 +70,6 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', function() {
     console.log("MongoDb connected")
 });
-
-const models = require('./models/user.model');
 
 // upsert lender
 var initial_dict = { 

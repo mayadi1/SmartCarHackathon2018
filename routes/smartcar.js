@@ -46,12 +46,16 @@ router.get('/callback', function(req, res, next) {
         credentials: access
       };
 
-      models.upsert_user(initial_dict, function (err, doc) {
-        if (err) {
-          console.error(err);
-        } else {
-          return res.redirect('/');
-        }
+      smartcar.get_vehicles(access.accessToken, function(vehicles) {
+        initial_dict["cars"] = vehicles;
+
+        models.upsert_user(initial_dict, function (err, doc) {
+          if (err) {
+            console.error(err);
+          } else {
+            return res.redirect('/');
+          }
+        });
       });
     })
     .catch(function(err) {

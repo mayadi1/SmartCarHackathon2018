@@ -1,0 +1,9 @@
+<div>
+  <p>{{status_msg}}</p>
+  <p>Car: {{car.make}} {{car.model}} {{car.year}}</p>
+
+  <div style="padding-left: 40%; padding-right: 40%;">
+    <a href="/lock?car={{car.name}}&mode=lock" class="btn btn-primary btn-block btn-large" style="margin-bottom: 4px;">Lock</a>
+    <a href="/lock?car={{car.name}}&mode=unlock" class="btn btn-secondary btn-block btn-large">Unlock</a>
+  </div>
+</div>

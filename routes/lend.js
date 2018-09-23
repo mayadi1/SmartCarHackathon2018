@@ -1,7 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
-const User = require('../models/user.model');
+const models = require('../models/user.model');
+
+const GOOGLE_API_KEY = "AIzaSyDvWHFx3eLPTVVvsfEn-iFxt46jwKFiJYM";
 
 router.post('/', function (req, res, next) {
     User.findOne({'name': req.cookies.user}, function (err, userFromDb) {
@@ -16,7 +18,7 @@ router.post('/', function (req, res, next) {
             }
             if (car) {
                 car.lender = req.body.userId
-                User.findOneAndUpdate(
+                models.User.findOneAndUpdate(
                     {'name': req.cookies.user}),
                     {
                         "$set": {
@@ -26,7 +28,12 @@ router.post('/', function (req, res, next) {
                     if (err) {
                         res.render('lendingPrepare', {error: "Could not get the car"});
                     } else {
-                        res.render('lendingDone', {car: car});
+                        console.log("###lend");
+                        var data = {
+                            car: car,
+                            google_api_key: GOOGLE_API_KEY
+                        };
+                        res.render('lendingDone', data);
                     }
                 }
 

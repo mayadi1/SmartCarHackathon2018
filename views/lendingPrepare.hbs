@@ -1,9 +1,9 @@
 <div>
     <form method="post" action="/lend"/>
     <p>{{error}}</p>
-    <p>Car: {{car.name}}</p>
+    <p>Car: {{car.make}} {{car.model}} {{car.year}}</p>
 	<p>
-	  Address: 683 Sutter Street, San Francisco, CA
+	  Address: {{ street_address }}
 	</p>
 	<div class="details-on-map show-map">
 	  <div class="paper-map">
@@ -21,3 +21,25 @@
 	</button>
 	</form>
 </div>
+
+<script>
+	// Initialize and add the map
+	function initMap() {
+  	// The location of vehicle
+  	var vehicle_loc = {lat: {{lat}}, lng: {{lng}} };
+  	// The map, centered at Uluru
+  	var map = new google.maps.Map(
+      document.getElementById('map'), {zoom: 12, center: vehicle_loc});
+  	// The marker, positioned at vehicle_loc
+  	var marker = new google.maps.Marker({position: vehicle_loc, map: map});
+	}
+</script>
+    
+<!--Load the API from the specified URL
+* The async attribute allows the browser to render the page while the API loads
+* The key parameter will contain your own API key (which is not needed for this tutorial)
+* The callback parameter executes the initMap() function
+-->
+<script async defer
+src="https://maps.googleapis.com/maps/api/js?key={{google_api_key}}&callback=initMap">
+</script>
