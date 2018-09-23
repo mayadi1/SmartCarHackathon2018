@@ -1,22 +1,14 @@
 var express = require('express');
 var router = express.Router();
-var smartcar = require("../lib/smartcar");
+
+const models = require('../models/user.model');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    var router_res = res;
-    var callback = function(credentials) {
-        console.log("credentials: " + credentials);    
-        console.log("credentials['accessToken']: " + credentials['accessToken']);
-        smartcar.get_vehicles(credentials.accessToken, function(vehicles) {
-            console.log("before router_res: " + JSON.stringify(vehicles));
-
-            router_res.render('carList', { "vehicles": vehicles});
-            console.log("###after render");
-        });
-    };
-
-    smartcar.get_credentials('owner', callback);
+    models.get_user_by_name(req.cookies.user, function (err, userFromDb) {
+        let user = userFromDb[0];
+        res.render('carList', { "vehicles": user.cars});
+    });
     console.log("###smartcar.get_credentials");
 });
 
