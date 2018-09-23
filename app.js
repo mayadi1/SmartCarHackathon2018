@@ -32,6 +32,16 @@ app.use('/lending', lendingRouter);
 app.use('/lend', lendRouter);
 app.use('/login', loginRouter);
 
+app.get('/error', function(req, res, next) {
+    const {action, message} = req.query;
+    if (!action && !message) {
+      return res.redirect('/');
+    }
+  
+    res.render('error', {action, message});
+  
+  });
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     next(createError(404));
@@ -57,17 +67,46 @@ db.once('open', function() {
     console.log("MongoDb connected")
 });
 
-const User = require('./models/user.model');
-User.deleteMany({}, function (err) {
-    if (err) return console.error(err);
-});
-var owner = new User({ name: 'owner', password: 'password', cars: [{name: "VW"}, {name: "Ford"}, {name: "Tesla"}] });
-owner.save(function (err, owner) {
-    if (err) return console.error(err);
-});
-var lender = new User({ name: 'lender', password: 'password' });
-lender.save(function (err, lender) {
-    if (err) return console.error(err);
-});
+const models = require('./models/user.model');
+
+var init_db = function() {
+    /*
+    User.deleteMany({}, function (err) {
+        if (err) return console.error(err);
+    });
+    */
+
+    models.get_user_by_name('owner', function(err, docs) {
+        if (!docs.length || docs.length == 0) {
+            var initial_dict = {
+                name: 'owner', 
+                password: 'password', 
+                cars: 
+                [{name: "VW"}, {name: "Ford"}, {name: "Tesla"}] 
+            };
+            models.create_user(initial_dict, function(err, owner){
+                if (err) {
+                    return console.error(err);
+                }
+            });
+        }
+    });
+    
+    models.get_user_by_name('lender', function(err, docs) {
+        if (!docs.length || docs.length == 0) {
+            var initial_dict = { 
+                name: 'lender', 
+                password: 'password' };
+
+            models.create_user(initial_dict, function(err, lender){
+                if (err) {
+                    return console.error(err);
+                }
+            });
+        }
+    });
+};
+
+
 
 module.exports = app;

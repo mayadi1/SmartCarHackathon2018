@@ -1,6 +1,8 @@
 var express = require('express');
 const _ = require('lodash');
+const url = require('url');
 const smartcar = require('../lib/smartcar');
+const models = require('../models/user.model');
 var router = express.Router();
 
 /**
@@ -37,7 +39,20 @@ router.get('/callback', function(req, res, next) {
       req.session.vehicles = {};
       req.session.access = access;
       console.log(JSON.stringify(access));
-      return res.redirect('/');
+
+      var initial_dict = {
+        name: 'owner', 
+        password: 'password',
+        credentials: access
+      };
+
+      models.upsert_user(initial_dict, function (err, doc) {
+        if (err) {
+          console.error(err);
+        } else {
+          return res.redirect('/');
+        }
+      });
     })
     .catch(function(err) {
       const message = err.message || `Failed to exchange authorization code for access token`;
